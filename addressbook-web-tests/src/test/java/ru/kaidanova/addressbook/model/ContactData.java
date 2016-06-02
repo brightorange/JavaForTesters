@@ -1,4 +1,4 @@
-package ru.kaidanova.addressbook;
+package ru.kaidanova.addressbook.model;
 
 public class ContactData {
     private final String firstname;

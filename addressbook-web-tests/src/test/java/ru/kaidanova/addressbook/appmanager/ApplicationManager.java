@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ApplicationManager {
     WebDriver wd;
-    private  String browser;
+    private String browser;
     private ContactHelper contactHelper;
     private NavigationHelper navigationHelper;
     private GroupHelper groupHelper;
@@ -24,13 +24,13 @@ public class ApplicationManager {
 
     public void init() {
         if (Objects.equals(browser, BrowserType.FIREFOX)) {
-        wd = new FirefoxDriver();
+            wd = new FirefoxDriver();
         } else if (Objects.equals(browser, BrowserType.CHROME)) {
-        wd = new ChromeDriver();
+            wd = new ChromeDriver();
         } else if (Objects.equals(browser, BrowserType.IE))
-        wd = new InternetExplorerDriver();
+            wd = new InternetExplorerDriver();
 
-        wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+        wd.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
         wd.get("http://localhost/addressbook");
         groupHelper = new GroupHelper(wd);
         navigationHelper = new NavigationHelper(wd);

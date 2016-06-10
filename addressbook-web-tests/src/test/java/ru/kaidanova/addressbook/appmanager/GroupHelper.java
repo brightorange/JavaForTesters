@@ -2,7 +2,6 @@ package ru.kaidanova.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import ru.kaidanova.addressbook.model.GroupData;
 
 public class GroupHelper extends HelperBase {
@@ -38,10 +37,21 @@ public class GroupHelper extends HelperBase {
     }
 
     public void selectGroup() {
-      click(By.name("selected[]"));
+        click(By.name("selected[]"));
     }
 
     public void deleteGroup() {
         click(By.name("delete"));
+    }
+
+    public void createGroup() {
+        initGroupCreation();
+        fillGroupForm(new GroupData("test1", null, null));
+        submitGroupCreation();
+        returnToGroupPage();
+    }
+
+    public boolean isThereAGroup() {
+        return isElementPresent(By.name("selected[]"));
     }
 }

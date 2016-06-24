@@ -1,9 +1,5 @@
 package ru.kaidanova.addressbook.tests;
 
-
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.kaidanova.addressbook.model.ContactData;
 import ru.kaidanova.addressbook.model.Contacts;

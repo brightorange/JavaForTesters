@@ -7,7 +7,14 @@ public class ContactData {
     private String title;
     private String address;
     private String mobile;
+    private String homePhone;
+    private String workPhone;
     private String group;
+    private String allPhones;
+    private String email1;
+    private String email2;
+    private String email3;
+    private String allEmails;
 
 
     public ContactData withFirstName(String firstname) {
@@ -34,6 +41,42 @@ public class ContactData {
         this.mobile = mobile;
         return this;
     }
+
+    public ContactData withHomePhone(String homePhone) {
+        this.homePhone = homePhone;
+        return this;
+    }
+
+    public ContactData withWorkPhone(String workPhone) {
+        this.workPhone = workPhone;
+        return this;
+    }
+
+    public ContactData withAllPhones(String allPhones) {
+        this.allPhones = allPhones;
+        return this;
+    }
+
+    public ContactData withEmail1(String email1) {
+        this.email1 = email1;
+        return this;
+    }
+
+    public ContactData withEmail2(String email2) {
+        this.email2 = email2;
+        return this;
+    }
+
+    public ContactData withEmail3(String email3) {
+        this.email3 = email3;
+        return this;
+    }
+
+    public ContactData withAllEmails(String allEmails) {
+        this.allEmails = allEmails;
+        return this;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -86,12 +129,41 @@ public class ContactData {
         return address;
     }
 
+    public String getHomePhone() {
+        return homePhone;
+    }
+
+    public String getWorkPhone() {
+        return workPhone;
+    }
+
     public String getMobile() {
         return mobile;
     }
 
+    public String getAllPhones() {
+        return allPhones;
+    }
     public String getGroup() {
         return group;
+    }
+
+
+    public String getEmail1() {
+
+        return email1;
+    }
+
+    public String getEmail2() {
+        return email2;
+    }
+
+    public String getEmail3() {
+        return email3;
+    }
+
+    public String getAllEmails() {
+        return allEmails;
     }
 
     @Override
@@ -102,6 +174,7 @@ public class ContactData {
                 ", secondname='" + secondname + '\'' +
                 '}';
     }
+
 
 
 }

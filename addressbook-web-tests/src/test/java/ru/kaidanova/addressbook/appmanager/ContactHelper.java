@@ -36,7 +36,9 @@ public class ContactHelper extends HelperBase {
         type(By.name("email3"), contactData.getEmail3());
 
         if (creation) {
-            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+            if (contactData.getGroup() != "") {
+                new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+            }
         } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
         }
@@ -77,6 +79,10 @@ public class ContactHelper extends HelperBase {
         wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();
     }
 
+    private void viewDetails(int id) {
+        wd.findElement(By.cssSelector(String.format("a[href='view.php?id=%s']", id))).click();
+    }
+
 
     public void delete(ContactData contact) {
         selectContactById(contact.getId());
@@ -115,7 +121,8 @@ public class ContactHelper extends HelperBase {
             String allEmails = cells.get(4).getText();
             String address = cells.get(3).getText();
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("id"));
-            contactCache.add(new ContactData().withId(id).withFirstName(firstName).withSecondName(secondName).withAllPhones(allPhones).withAddress(address).withAllEmails(allEmails));
+            contactCache.add(new ContactData().withId(id).withFirstName(firstName).withSecondName(secondName)
+                    .withAllPhones(allPhones).withAddress(address).withAllEmails(allEmails));
         }
         return contactCache;
     }
@@ -128,10 +135,20 @@ public class ContactHelper extends HelperBase {
                 .withAddress(wd.findElement(By.name("address")).getText())
                 .withEmail1(wd.findElement(By.name("email")).getAttribute("value"))
                 .withEmail2(wd.findElement(By.name("email2")).getAttribute("value"))
-                .withEmail3(wd.findElement(By.name("email3")).getAttribute("value"));
+                .withEmail3(wd.findElement(By.name("email3")).getAttribute("value"))
+                .withFirstName(wd.findElement(By.name("firstname")).getAttribute("value"))
+                .withSecondName(wd.findElement(By.name("lastname")).getAttribute("value"));
 
         return contact;
     }
 
 
+    public ContactData infoFromDetailsForm(ContactData contact) {
+        selectContactById(contact.getId());
+        viewDetails(contact.getId());
+        String content = wd.findElement(By.id("content")).getText();
+        contact.withDetails(content);
+        return contact;
+
+    }
 }

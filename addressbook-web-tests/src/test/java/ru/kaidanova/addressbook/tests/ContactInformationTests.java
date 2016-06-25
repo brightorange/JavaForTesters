@@ -1,6 +1,7 @@
 package ru.kaidanova.addressbook.tests;
 
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.kaidanova.addressbook.model.ContactData;
 import java.util.Arrays;
@@ -9,7 +10,20 @@ import java.util.stream.Collectors;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+
+
 public class ContactInformationTests extends TestBase{
+
+    @BeforeMethod
+    public void ensurePreconditions() {
+        if (app.contact().all().size() == 0) {
+            app.contact().create(new ContactData().withFirstName("test1").withSecondName("test2").withGroup("test1")
+                    .withAddress("test3").withMobile("test4").withWorkPhone("+7 (911) 25-35-55")
+                    .withEmail1("test@test.ru").withEmail2("test@test.com"));
+            app.goTo().homePage();
+        }
+    }
+
     @Test
     public void testContactInfo() {
         app.goTo().homePage();
@@ -37,7 +51,6 @@ public class ContactInformationTests extends TestBase{
     private String mergeEmails(ContactData contact) {
         return  Arrays.asList(contact.getEmail1(), contact.getEmail2(), contact.getEmail3())
                 .stream().filter((s) -> ! s.equals(""))
-              //  .map(ContactInformationTests::cleaned)
                 .collect(Collectors.joining("\n"));
 
     }

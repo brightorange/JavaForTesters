@@ -1,12 +1,13 @@
 package ru.kaidanova.addressbook.generator;
 
+
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.thoughtworks.xstream.XStream;
-import ru.kaidanova.addressbook.model.GroupData;
+import ru.kaidanova.addressbook.model.ContactData;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -15,19 +16,19 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupDataGenerator {
+public class ContactDataGenerator {
 
-    @Parameter(names = "-c", description = "group count")
+    @Parameter(names = "-c", description = "contact count")
     public int count;
 
     @Parameter(names = "-f", description = "target file")
     public String file;
 
-    @Parameter(names = "-d", description = "Data format")
+    @Parameter(names = "-d", description = "data format")
     public String format;
 
     public static void main(String args[]) throws IOException {
-        GroupDataGenerator generator = new GroupDataGenerator();
+        ContactDataGenerator generator = new ContactDataGenerator();
         JCommander jCommander = new JCommander(generator);
         try {
             jCommander.parse(args);
@@ -39,51 +40,45 @@ public class GroupDataGenerator {
     }
 
     public void run() throws IOException {
-        List<GroupData> groups = generateGroups(count);
-        if (format.equals("csv")) {
-            saveAsCsv(groups, new File(file));
-        } else if (format.equals("xml")) {
-            saveAsXml(groups, new File(file));
+        List<ContactData> contacts = generateContacts(count);
+        if (format.equals("xml")) {
+            saveAsXml(contacts, new File(file));
         } else if (format.equals("json")) {
-            saveAsJson(groups, new File(file));
+            saveAsJson(contacts, new File(file));
         } else {
             System.out.println("Wrong file format " + format);
         }
     }
 
-    private void saveAsJson(List<GroupData> groups, File file) throws IOException {
+    private void saveAsJson(List<ContactData> contacts, File file) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-        String json = gson.toJson(groups);
+        String json = gson.toJson(contacts);
         try (Writer writer = new FileWriter(file)) {
             writer.write(json);
         }
     }
 
-    private void saveAsXml(List<GroupData> groups, File file) throws IOException {
+    private void saveAsXml(List<ContactData> groups, File file) throws IOException {
         XStream xstream = new XStream();
-        xstream.processAnnotations(GroupData.class);
+        xstream.processAnnotations(ContactData.class);
         String xml = xstream.toXML(groups);
         try (Writer writer = new FileWriter(file)) {
             writer.write(xml);
         }
     }
 
-    private void saveAsCsv(List<GroupData> groups, File file) throws IOException {
-        try (Writer writer = new FileWriter(file)) {
-            for (GroupData group : groups) {
-                writer.write(String.format("%s;%s;%s\n", group.getName(), group.getHeader(), group.getFooter()));
-            }
-        }
-    }
 
-    private List<GroupData> generateGroups(int count) {
-        List<GroupData> groups = new ArrayList<GroupData>();
+    private List<ContactData> generateContacts(int count) {
+        List<ContactData> contacts = new ArrayList<ContactData>();
+        File photo = new File("src/test/resources/Screenshot_1.png");
         for (int i = 0; i < count; i++) {
-            groups.add(new GroupData().withName(String.format("test %s", i))
-                    .withHeader(String.format("header %s", i))
-                    .withFooter(String.format("footer %s", i)));
+            contacts.add(new ContactData().withFirstName(String.format("test %s", i)).withSecondName(String.format("test %s", i))
+                    .withAddress(String.format("test %s", i)).withMobile(String.format("test %s", i))
+                    .withPhoto(photo).withGroup("test1"));
         }
-        return groups;
+        return contacts;
     }
-
 }
+
+
+

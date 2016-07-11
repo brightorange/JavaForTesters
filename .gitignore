@@ -11,3 +11,10 @@ gradle-app.setting
 .gradletasknamecache
 
 .idea/workspace.xml
+addressbook-web-tests/src/test/resources/groups.json
+*.xml
+.idea/modules/addressbook-web-tests_main.iml
+*.iml
+addressbook-web-tests/src/test/resources/Screenshot_1.png
+*.iml
+.idea/modules/addressbook-web-tests_main.iml

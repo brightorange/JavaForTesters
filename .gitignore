@@ -11,3 +11,6 @@ gradle-app.setting
 .gradletasknamecache
 
 .idea/workspace.xml
+*.log
+*.xml
+*.json

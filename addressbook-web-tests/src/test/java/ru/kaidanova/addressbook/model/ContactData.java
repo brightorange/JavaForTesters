@@ -3,51 +3,93 @@ package ru.kaidanova.addressbook.model;
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
 import java.io.File;
 
 @XStreamAlias("contact")
-
+@Entity
+@Table (name = "addressbook")
 public class ContactData {
     @XStreamOmitField
+    @Id
+    @Column(name = "id")
     private int id = Integer.MAX_VALUE;
+
     @Expose
+    @Column(name = "firstname")
     private String firstname;
+
     @Expose
+    @Column(name = "lastname")
     private String secondname;
+
     @XStreamOmitField
     private String title;
+
     @Expose
+    @Column(name = "address")
+    @Type(type = "text")
     private String address;
+
     @Expose
+    @Column(name = "mobile")
+    @Type(type = "text")
     private String mobile;
+
     @XStreamOmitField
+    @Column(name = "home")
+    @Type(type = "text")
     private String homePhone;
+
     @XStreamOmitField
+    @Column(name = "work")
+    @Type(type = "text")
     private String workPhone;
+
     @Expose
+    @Transient
     private String group;
+
     @XStreamOmitField
+    @Transient
     private String allPhones;
+
     @XStreamOmitField
+    @Column(name = "email")
+    @Type(type = "text")
     private String email1;
+
     @XStreamOmitField
+    @Column(name = "email2")
+    @Type(type = "text")
     private String email2;
+
     @XStreamOmitField
+    @Column(name = "email3")
+    @Type(type = "text")
     private String email3;
+
     @XStreamOmitField
+    @Transient
     private String allEmails;
+
     @XStreamOmitField
+    @Transient
     private String details;
+
     @Expose
-    private File photo;
+    @Column(name = "photo")
+    @Type(type = "text")
+    private String photo;
 
     public File getPhoto() {
-        return photo;
+        if (photo == null) {return null;} else { return new File(photo);}
     }
 
     public ContactData withPhoto(File photo) {
-        this.photo = photo;
+        this.photo = photo.getPath();
         return this;
     }
 
@@ -86,6 +128,27 @@ public class ContactData {
         return this;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ContactData that = (ContactData) o;
+
+        if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
+        if (secondname != null ? !secondname.equals(that.secondname) : that.secondname != null) return false;
+        return address != null ? address.equals(that.address) : that.address == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = firstname != null ? firstname.hashCode() : 0;
+        result = 31 * result + (secondname != null ? secondname.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        return result;
+    }
+
     public ContactData withAllPhones(String allPhones) {
         this.allPhones = allPhones;
         return this;
@@ -116,27 +179,6 @@ public class ContactData {
         return this;
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ContactData that = (ContactData) o;
-
-        if (id != that.id) return false;
-        if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
-        return secondname != null ? secondname.equals(that.secondname) : that.secondname == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
-        result = 31 * result + (secondname != null ? secondname.hashCode() : 0);
-        return result;
-    }
 
     public ContactData withId(int id) {
         this.id = id;

@@ -15,7 +15,7 @@ public class ContactDetailsTests extends TestBase {
     @BeforeMethod
     public void ensurePreconditions() {
         if (app.db().contacts().size() == 0) {
-            app.contact().create(new ContactData().withFirstName("test1").withSecondName("test2").withGroup("")
+            app.contact().create(new ContactData().withFirstName("test1").withSecondName("test2")
                     .withAddress("test3").withMobile("test4").withWorkPhone("+7 (911) 25-35-55")
                     .withEmail1("test@test.ru").withEmail2("test@test.com"));
             app.goTo().homePage();

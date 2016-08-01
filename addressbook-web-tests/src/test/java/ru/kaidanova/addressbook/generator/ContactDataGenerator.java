@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ContactDataGenerator {
 
-    @Parameter(names = "-c", description = "contact count")
+    @Parameter(names = "-c", description = "contactByID count")
     public int count;
 
     @Parameter(names = "-f", description = "target file")
@@ -74,7 +74,7 @@ public class ContactDataGenerator {
         for (int i = 0; i < count; i++) {
             contacts.add(new ContactData().withFirstName(String.format("test %s", i)).withSecondName(String.format("test %s", i))
                     .withAddress(String.format("test %s", i)).withMobile(String.format("test %s", i))
-                    .withPhoto(photo).withGroup("test1"));
+                    .withPhoto(photo));
         }
         return contacts;
     }

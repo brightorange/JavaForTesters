@@ -36,6 +36,16 @@ public class DBHelper {
         return  new Groups(result);
     }
 
+    public Groups groupByName(String name) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        List<GroupData> result = session.createQuery( "from GroupData where name = '" + name +"'" ).list();
+        session.getTransaction().commit();
+        session.close();
+        return  new Groups(result);
+    }
+
+
     public Contacts contacts() {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
@@ -43,5 +53,24 @@ public class DBHelper {
         session.getTransaction().commit();
         session.close();
         return  new Contacts(result);
+    }
+
+    public Contacts contactByID(int id) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        List<ContactData> result = session.createQuery("from ContactData where id = " + id + " and deprecated = '0000-00-00'").list();
+        session.getTransaction().commit();
+        session.close();
+        return  new Contacts(result);
+    }
+
+    public Groups availableGroupsForContact(ContactData contact) {
+        Groups contactGroups = contact.getGroups();
+        Groups availableGroups = groups();
+        for (GroupData group : contactGroups) {
+            availableGroups = availableGroups.without(group);
+        }
+        return availableGroups;
+
     }
 }

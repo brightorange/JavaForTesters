@@ -9,6 +9,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import ru.kaidanova.addressbook.model.ContactData;
 import ru.kaidanova.addressbook.model.Contacts;
+import ru.kaidanova.addressbook.model.GroupData;
+import ru.kaidanova.addressbook.model.Groups;
 
 import java.util.List;
 
@@ -38,12 +40,13 @@ public class ContactHelper extends HelperBase {
         attach(By.name("photo"), contactData.getPhoto());}
 
         if (creation) {
-            if (contactData.getGroup() != "") {
-                new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+            if ( contactData.getGroups().size() >0 ) {
+                Assert.assertTrue(contactData.getGroups().size() == 1);
+                new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
             }
         } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
-        }
+       }
     }
 
     public void initContactCreation() {
@@ -151,6 +154,13 @@ public class ContactHelper extends HelperBase {
         String content = wd.findElement(By.id("content")).getText();
         contact.withDetails(content);
         return contact;
+
+    }
+
+    public void addToGroup(ContactData contact, GroupData group) {
+        selectContactById(contact.getId());
+        new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(group.getName());
+        click(By.name("add"));
 
     }
 }

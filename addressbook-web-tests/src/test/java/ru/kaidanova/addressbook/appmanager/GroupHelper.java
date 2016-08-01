@@ -3,6 +3,10 @@ package ru.kaidanova.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.kaidanova.addressbook.model.ContactData;
 import ru.kaidanova.addressbook.model.GroupData;
 import ru.kaidanova.addressbook.model.Groups;
 
@@ -76,6 +80,12 @@ public class GroupHelper extends HelperBase {
     }
 
 
+    public void goToSpecificGroupPage(GroupData group) {
+        new Select(wd.findElement(By.name("group"))).selectByVisibleText(group.getName());
+        WebElement myDynamicElement = (new WebDriverWait(wd, 5))
+                .until(ExpectedConditions.presenceOfElementLocated(By.id("maintable")));
+    }
+
 
     public boolean isThereAGroup() {
         return isElementPresent(By.name("selected[]"));
@@ -102,4 +112,8 @@ public class GroupHelper extends HelperBase {
     }
 
 
+    public void removeContact(ContactData contact) {
+        wd.findElement(By.cssSelector("input[value='" + contact.getId() + "']")).click();
+        click(By.name("remove"));
+    }
 }

@@ -15,10 +15,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-public class RestTests {
+public class RestTests extends  TestBase {
 
     @Test
     public void testCreateIssue() throws IOException {
+        skipIfNotFixed(5);
         Set<Issue> oldIssues = getIssues();
         Issue newIssue = new Issue().witSubject("test issue").withDescription("test description");
         int issueId = createIssue(newIssue);

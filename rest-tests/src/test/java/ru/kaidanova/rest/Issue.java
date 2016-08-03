@@ -4,6 +4,16 @@ public class Issue {
     private int id;
     private String subject;
     private String description;
+    private int state;
+
+    public int getStatus() {
+        return state;
+    }
+
+    public Issue withStatus(int status) {
+        this.state = status;
+        return this;
+    }
 
     public int getId() {
         return id;
